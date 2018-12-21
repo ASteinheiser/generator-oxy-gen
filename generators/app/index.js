@@ -113,7 +113,7 @@ module.exports = class extends Generator {
 
     try {
       this.log(chalk.blue('Adding scripts and electron config to package.json...'));
-      this.log(chalk.yellow('When prompted to overwrite package.json, enter `y` to accept.\n'));
+      this.log(chalk.yellow('When prompted to overwrite files, enter `y` to accept.\n'));
 
       let packageJson = `${this.projectNameKebab}/package.json`;
 
@@ -134,8 +134,9 @@ module.exports = class extends Generator {
       return;
     }
 
-    this.log(chalk.blue('Creating important files!\n'));
+    this.log(chalk.blue('Overwriting .gitignore and README.md...'));
 
-    this.template('_package.json', `${this.projectNameKebab}/another-package.json`, context);
+    this.template('_.gitignore', `${this.projectNameKebab}/.gitignore`, context);
+    this.template('_README.md', `${this.projectNameKebab}/README.md`, context);
   }
 };
