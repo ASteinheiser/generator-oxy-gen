@@ -112,8 +112,9 @@ module.exports = class extends Generator {
     }
 
     try {
-      this.log(chalk.blue('Adding scripts and electron config to package.json...'));
-      this.log(chalk.yellow('When prompted to overwrite files, enter `y` to accept.\n'));
+      this.log(chalk.yellow('\nWhen prompted to overwrite files, enter `y` to accept.\n'));
+
+      this.log(chalk.blue('Adding scripts and electron config to package.json...\n'));
 
       let packageJson = `${this.projectNameKebab}/package.json`;
 
@@ -134,9 +135,50 @@ module.exports = class extends Generator {
       return;
     }
 
-    this.log(chalk.blue('Overwriting .gitignore and README.md...'));
+    try {
+      this.log(chalk.blue('Updating public/index.html and public/manifest.json...\n'));
+
+      let indexHtml = `${this.projectNameKebab}/public/index.html`;
+      let manifest = `${this.projectNameKebab}/public/manifest.json`;
+
+      this.fs.copy(indexHtml, indexHtml, {
+        process: content => {
+          var nameRegex = new RegExp('React App', 'g');
+          var newContent = content.toString().replace(nameRegex, this.projectName);
+          return newContent;
+        }
+      });
+
+      this.fs.copy(manifest, manifest, {
+        process: content => {
+          var nameRegex = new RegExp('React App', 'g');
+          var descRegex = new RegExp('Create React App Sample', 'g');
+
+          var newContent = content.toString().replace(descRegex, 'Electron App with React and Rust');
+          newContent = newContent.replace(nameRegex, this.projectName);
+
+          return newContent;
+        }
+      });
+    }
+    catch(err) {
+      this.log(chalk.red('Something went wrong overwriting package.json\n'));
+      return;
+    }
+
+    this.log(chalk.blue('Overwriting .gitignore and README.md...\n'));
 
     this.template('_.gitignore', `${this.projectNameKebab}/.gitignore`, context);
     this.template('_README.md', `${this.projectNameKebab}/README.md`, context);
+
+    try {
+      this.log(chalk.blue('Removing boilerplate src/\n'));
+
+      execSync(`cd ${this.projectNameKebab}; rm -rf src/`);
+    }
+    catch(err) {
+      this.log(chalk.red('Something went wrong removing the boilerplate src/\n'));
+      return;
+    }
   }
 };
