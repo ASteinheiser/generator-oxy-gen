@@ -1,6 +1,6 @@
 {
   "name": "generator-oxy-gen",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Yeoman generator for Electron app with React and Rust (WASM).",
   "main": "index.js",
   "files": [
