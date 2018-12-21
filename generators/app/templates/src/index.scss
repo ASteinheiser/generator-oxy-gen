@@ -1,0 +1,46 @@
+html, body, #root {
+  height: 100%;
+}
+
+html {
+  --light-gray: #9b9b9b;
+  --gray: #6f6f6f;
+  --red: #e20000;
+  --purple: #492f9f;
+  --dark-purple: #412e7d;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.app-title {
+  color: white;
+  font-family: 'Roboto';
+  text-align: center;
+
+  background: var(--purple);
+
+  margin: 0;
+  padding: 28px 24px 24px;
+}
+
+.app-subheader {
+  color: black;
+  font-family: 'Roboto';
+  text-align: center;
+
+  margin: 0;
+  padding: 24px;
+}

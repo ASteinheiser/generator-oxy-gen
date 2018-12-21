@@ -1,0 +1,32 @@
+.button-container {
+  font-size: 18px;
+  color: white;
+
+  border: none;
+  outline: none;
+
+  border-radius: 8px;
+  background: var(--purple);
+
+  padding: 8px 12px;
+
+  box-shadow: 0 2px 10px var(--purple);
+
+  cursor: pointer;
+
+  &:hover {
+    background: var(--dark-purple);
+  }
+}
+
+.button-disabled {
+  background: var(--gray);
+
+  box-shadow: 0 2px 10px var(--gray);
+
+  cursor: default;
+
+  &:hover {
+    background: var(--gray);
+  }
+}

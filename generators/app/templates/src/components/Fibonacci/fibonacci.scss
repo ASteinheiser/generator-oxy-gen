@@ -1,0 +1,27 @@
+.fibonacci-container {
+  display: flex;
+  flex-direction: column;
+
+  padding: 0 32px;
+
+  max-width: 400px;
+  margin: auto;
+
+  .fibonacci-input {
+    display: flex;
+    flex-direction: row;
+    
+    align-items: flex-end;
+    justify-content: space-between;
+
+    .fibonacci-button {
+      width: 150px;
+  
+      margin-left: 24px;
+    }
+  }
+
+  .fibonacci-result-container {
+    padding: 32px 0 0;
+  }
+}

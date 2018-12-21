@@ -204,6 +204,12 @@ module.exports = class extends Generator {
     this.template('assets/_icon.icns', `${projectNameKebab}/assets/icon.icns`, context);
     this.template('assets/_icon.ico', `${projectNameKebab}/assets/icon.ico`, context);
     this.template('assets/_icon.png', `${projectNameKebab}/assets/icon.png`, context);
-    this.template('src/_lib.rs', `${projectNameKebab}/src/lib.rs`, context);
+
+    this.log(chalk.blue('Creating new src/ with speed test example\n'));
+
+    this.fs.copy(
+      this.templatePath('src'),
+      this.destinationPath(`${projectNameKebab}/src`)
+    );
   }
 };
