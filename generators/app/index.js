@@ -115,9 +115,11 @@ module.exports = class extends Generator {
       if(yarn) {
         execSync(`cd ${projectNameKebab}; yarn add --dev foreman electron-builder electron`);
         execSync(`cd ${projectNameKebab}; yarn add node-sass typeface-roboto`);
+        execSync(`cd ${projectNameKebab}; yarn add react@v16.7.0-alpha.0 react-dom@v16.7.0-alpha.0`);
       } else {
         execSync(`cd ${projectNameKebab}; npm i --save-dev foreman electron-builder electron`);
         execSync(`cd ${projectNameKebab}; npm i --save node-sass typeface-roboto`);
+        execSync(`cd ${projectNameKebab}; npm i --save react@v16.7.0-alpha.0 react-dom@v16.7.0-alpha.0`);
       }
     } catch(err) {
       this.log(chalk.red(err));
@@ -221,6 +223,18 @@ module.exports = class extends Generator {
       const { yarn } = this._options;
 
       execSync(`cd ${projectNameKebab}; ${yarn ? 'yarn' : 'npm'} install`);
+    }
+    catch(err) {
+      this.log(chalk.red(err));
+      return;
+    }
+
+    try {
+      this.log(chalk.blue('Building project...\n'));
+
+      const { yarn } = this._options;
+
+      execSync(`cd ${projectNameKebab}; ${yarn ? 'yarn' : 'npm'} build`);
     }
     catch(err) {
       this.log(chalk.red(err));

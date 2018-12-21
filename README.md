@@ -5,15 +5,33 @@ It uses Electron to build the native app, create-react-app to generate a fresh R
 
 OXY-GEN includes a recursive fibonacci algorithm written in Node.js and Rust. It uses Web Workers to run both languages in parallel to showcase the speed difference.
 
-## Install generator
+Here is a [demo project](https://github.com/ASteinheiser/oxy-gen-demo) generated with this generator.
+
+## Install Yeoman and this Generator
 ```
-npm i -g yo generator-oxy-gen
+npm install -g yo generator-oxy-gen
 ```
-## Install dependencies
+# Install dependencies
+## Install CRA
 ```
-npm i -g create-react-app
+npm install -g create-react-app
 ```
-## Usage
+## Setup Rust Toolchain
+### Install Rustup
+```
+curl https://sh.rustup.rs -sSf | sh
+source $HOME/.cargo/env
+```
+### Select Nightly Version (for WASM support)
+```
+rustup default nightly
+```
+### Install WASM bindgen and add target
+```
+rustup target add wasm32-unknown-unknown
+cargo install wasm-bindgen-cli
+```
+# Usage
 ```
 yo oxy-gen
 ```
