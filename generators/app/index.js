@@ -4,6 +4,10 @@ const Generator  = require('yeoman-generator');
 const _kebabCase = require('lodash.kebabcase');
 // local imports
 const template = require('./template');
+const {
+  OLD_SCRIPTS,
+  NEW_SCRIPTS
+} = require('./scripts.js');
 
 // set global background color to black for text since we use white
 chalk = chalk.bgBlack;
@@ -102,6 +106,24 @@ module.exports = class extends Generator {
       }
     } catch(err) {
       this.log(chalk.red('Something went wrong installing dependencies.\n'));
+      return;
+    }
+
+    try {
+      this.log(chalk.blue('Adding scripts and electron config to package.json...\n'));
+
+      let packageJson = `${this.projectNameKebab}/package.json`;
+
+      this.fs.copy(packageJson, packageJson, {
+        process: content => {
+          var scriptsRegex = new RegExp(OLD_SCRIPTS, 'g');
+          var newContent = content.toString().replace(scriptsRegex, NEW_SCRIPTS);
+          return newContent;
+        }
+      });
+    }
+    catch(err) {
+      this.log(chalk.red('Something went wrong overwriting package.json\n'));
       return;
     }
 
