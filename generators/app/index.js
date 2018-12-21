@@ -6,7 +6,9 @@ const _kebabCase = require('lodash.kebabcase');
 const template = require('./template');
 const {
   OLD_SCRIPTS,
-  NEW_SCRIPTS
+  NEW_SCRIPTS,
+  OLD_META,
+  NEW_META
 } = require('./scripts.js');
 
 // set global background color to black for text since we use white
@@ -110,14 +112,19 @@ module.exports = class extends Generator {
     }
 
     try {
-      this.log(chalk.blue('Adding scripts and electron config to package.json...\n'));
+      this.log(chalk.blue('Adding scripts and electron config to package.json...'));
+      this.log(chalk.yellow('When prompted to overwrite package.json, enter `y` to accept.\n'));
 
       let packageJson = `${this.projectNameKebab}/package.json`;
 
       this.fs.copy(packageJson, packageJson, {
         process: content => {
           var scriptsRegex = new RegExp(OLD_SCRIPTS, 'g');
+          var packageMetaRegex = new RegExp(OLD_META, 'g');
+
           var newContent = content.toString().replace(scriptsRegex, NEW_SCRIPTS);
+          newContent = newContent.replace(packageMetaRegex, NEW_META(this.projectName, this.projectNameKebab));
+
           return newContent;
         }
       });
