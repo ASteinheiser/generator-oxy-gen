@@ -53,25 +53,39 @@ module.exports = class extends Generator {
         name: 'projectName',
         message: `What is your project's name?`,
         default: 'OXY-GEN Demo'
+      },
+      {
+        type: 'input',
+        name: 'author',
+        message: `What is your full name?`,
+        default: 'Drew Stein'
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: `What is your email?`,
+        default: 'me@example.io'
       }
     ];
 
     return this.prompt(prompts)
       .then(answers => {
-        var { projectName } = answers;
+        var { projectName, author, email } = answers;
 
+        self.author = author;
+        self.email = email;
         self.projectName = projectName;
         self.projectNameKebab = _kebabCase(projectName.toLowerCase());
       });
   }
 
   writing() {
-    const { projectName, projectNameKebab } = this;
+    const { projectName, projectNameKebab, email, author } = this;
 
     this.log(chalk.gray('\nCreating your new OXY-GEN App: ')
       + chalk.magenta(projectName) + chalk.gray('...\n'));
 
-    const context = { projectName, projectNameKebab };
+    const context = { projectName, projectNameKebab, email, author };
 
     try {
       execSync('create-react-app --version');
@@ -86,7 +100,7 @@ module.exports = class extends Generator {
       this.log(chalk.blue('Generating your create-react-app base project: ')
         + chalk.gray(`${projectNameKebab}\n`));
 
-      execSync(`create-react-app ${this.projectNameKebab}`);
+      execSync(`create-react-app ${projectNameKebab}`);
     }
     catch(err) {
       this.log(chalk.red('Something went wrong creating your react app.'));
@@ -100,11 +114,11 @@ module.exports = class extends Generator {
       const { yarn } = this.options;
 
       if(yarn) {
-        execSync(`cd ${this.projectNameKebab}; yarn add --dev foreman electron-builder electron`);
-        execSync(`cd ${this.projectNameKebab}; yarn add node-sass typeface-roboto`);
+        execSync(`cd ${projectNameKebab}; yarn add --dev foreman electron-builder electron`);
+        execSync(`cd ${projectNameKebab}; yarn add node-sass typeface-roboto`);
       } else {
-        execSync(`cd ${this.projectNameKebab}; npm i --save-dev foreman electron-builder electron`);
-        execSync(`cd ${this.projectNameKebab}; npm i --save node-sass typeface-roboto`);
+        execSync(`cd ${projectNameKebab}; npm i --save-dev foreman electron-builder electron`);
+        execSync(`cd ${projectNameKebab}; npm i --save node-sass typeface-roboto`);
       }
     } catch(err) {
       this.log(chalk.red('Something went wrong installing dependencies.\n'));
@@ -116,7 +130,7 @@ module.exports = class extends Generator {
 
       this.log(chalk.blue('Adding scripts and electron config to package.json...\n'));
 
-      let packageJson = `${this.projectNameKebab}/package.json`;
+      let packageJson = `${projectNameKebab}/package.json`;
 
       this.fs.copy(packageJson, packageJson, {
         process: content => {
@@ -124,7 +138,7 @@ module.exports = class extends Generator {
           var packageMetaRegex = new RegExp(OLD_META, 'g');
 
           var newContent = content.toString().replace(scriptsRegex, NEW_SCRIPTS);
-          newContent = newContent.replace(packageMetaRegex, NEW_META(this.projectName, this.projectNameKebab));
+          newContent = newContent.replace(packageMetaRegex, NEW_META(projectName, projectNameKebab, author));
 
           return newContent;
         }
@@ -138,13 +152,13 @@ module.exports = class extends Generator {
     try {
       this.log(chalk.blue('Updating public/index.html and public/manifest.json...\n'));
 
-      let indexHtml = `${this.projectNameKebab}/public/index.html`;
-      let manifest = `${this.projectNameKebab}/public/manifest.json`;
+      let indexHtml = `${projectNameKebab}/public/index.html`;
+      let manifest = `${projectNameKebab}/public/manifest.json`;
 
       this.fs.copy(indexHtml, indexHtml, {
         process: content => {
           var nameRegex = new RegExp('React App', 'g');
-          var newContent = content.toString().replace(nameRegex, this.projectName);
+          var newContent = content.toString().replace(nameRegex, projectName);
           return newContent;
         }
       });
@@ -155,7 +169,7 @@ module.exports = class extends Generator {
           var descRegex = new RegExp('Create React App Sample', 'g');
 
           var newContent = content.toString().replace(descRegex, 'Electron App with React and Rust');
-          newContent = newContent.replace(nameRegex, this.projectName);
+          newContent = newContent.replace(nameRegex, projectName);
 
           return newContent;
         }
@@ -168,17 +182,28 @@ module.exports = class extends Generator {
 
     this.log(chalk.blue('Overwriting .gitignore and README.md...\n'));
 
-    this.template('_.gitignore', `${this.projectNameKebab}/.gitignore`, context);
-    this.template('_README.md', `${this.projectNameKebab}/README.md`, context);
+    this.template('_.gitignore', `${projectNameKebab}/.gitignore`, context);
+    this.template('_README.md', `${projectNameKebab}/README.md`, context);
 
     try {
       this.log(chalk.blue('Removing boilerplate src/\n'));
 
-      execSync(`cd ${this.projectNameKebab}; rm -rf src/`);
+      execSync(`cd ${projectNameKebab}; rm -rf src/`);
     }
     catch(err) {
       this.log(chalk.red('Something went wrong removing the boilerplate src/\n'));
       return;
     }
+
+    this.log(chalk.blue('Creating Electron and Rust project files...\n'));
+
+    this.template('_Procfile', `${projectNameKebab}/Procfile`, context);
+    this.template('_electron-wait-react.js', `${projectNameKebab}/electron-wait-react.js`, context);
+    this.template('_Cargo.toml', `${projectNameKebab}/Cargo.toml`, context);
+    this.template('public/_electron.js', `${projectNameKebab}/public/electron.js`, context);
+    this.template('assets/_icon.icns', `${projectNameKebab}/assets/icon.icns`, context);
+    this.template('assets/_icon.ico', `${projectNameKebab}/assets/icon.ico`, context);
+    this.template('assets/_icon.png', `${projectNameKebab}/assets/icon.png`, context);
+    this.template('src/_lib.rs', `${projectNameKebab}/src/lib.rs`, context);
   }
 };

@@ -28,11 +28,11 @@ NEW_SCRIPTS = `"scripts": {
 
 OLD_META = `"private": true,`;
 
-NEW_META = (projectName, projectNameKebab) => `"private": true,
+NEW_META = (projectName, projectNameKebab, author) => `"private": true,
   "homepage": "./",
   "main": "public/electron.js",
   "description": "An Electron app written in React with Rust (Web Assembly)",
-  "author": "Some Person",
+  "author": "${author}",
   "build": {
     "productName": "${projectName}",
     "appId": "com.sample.${projectNameKebab}",
