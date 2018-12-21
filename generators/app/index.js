@@ -103,8 +103,7 @@ module.exports = class extends Generator {
       execSync(`create-react-app ${projectNameKebab}`);
     }
     catch(err) {
-      this.log(chalk.red('Something went wrong creating your react app.'));
-      this.log(chalk.red('\nMake sure you are using create-react-app v2.1.0 or newer'));
+      this.log(chalk.red(err));
       return;
     }
 
@@ -121,7 +120,7 @@ module.exports = class extends Generator {
         execSync(`cd ${projectNameKebab}; npm i --save node-sass typeface-roboto`);
       }
     } catch(err) {
-      this.log(chalk.red('Something went wrong installing dependencies.\n'));
+      this.log(chalk.red(err));
       return;
     }
 
@@ -145,7 +144,7 @@ module.exports = class extends Generator {
       });
     }
     catch(err) {
-      this.log(chalk.red('Something went wrong overwriting package.json\n'));
+      this.log(chalk.red(err));
       return;
     }
 
@@ -176,7 +175,7 @@ module.exports = class extends Generator {
       });
     }
     catch(err) {
-      this.log(chalk.red('Something went wrong overwriting package.json\n'));
+      this.log(chalk.red(err));
       return;
     }
 
@@ -186,12 +185,12 @@ module.exports = class extends Generator {
     this.template('_README.md', `${projectNameKebab}/README.md`, context);
 
     try {
-      this.log(chalk.blue('Removing boilerplate src/\n'));
+      this.log(chalk.blue('Removing boilerplate src/...\n'));
 
       execSync(`cd ${projectNameKebab}; rm -rf src/`);
     }
     catch(err) {
-      this.log(chalk.red('Something went wrong removing the boilerplate src/\n'));
+      this.log(chalk.red(err));
       return;
     }
 
@@ -205,11 +204,41 @@ module.exports = class extends Generator {
     this.template('assets/_icon.ico', `${projectNameKebab}/assets/icon.ico`, context);
     this.template('assets/_icon.png', `${projectNameKebab}/assets/icon.png`, context);
 
-    this.log(chalk.blue('Creating new src/ with speed test example\n'));
+    this.log(chalk.blue('Creating new src/ with speed test example...\n'));
 
     this.fs.copy(
       this.templatePath('src'),
       this.destinationPath(`${projectNameKebab}/src`)
     );
+  }
+
+  install() {
+    const { projectNameKebab } = this;
+
+    try {
+      this.log(chalk.blue('Installing the project dependencies...\n'));
+
+      const { yarn } = this._options;
+
+      execSync(`cd ${projectNameKebab}; ${yarn ? 'yarn' : 'npm'} install`);
+    }
+    catch(err) {
+      this.log(chalk.red(err));
+      return;
+    }
+  }
+
+  end() {
+    const { projectNameKebab } = this;
+
+    try {
+      this.log(chalk.blue('Committing the changes with git...\n'));
+
+      execSync(`cd ${projectNameKebab}; git add .; git commit -m 'generated oxy-gen app'`);
+    }
+    catch(err) {
+      this.log(chalk.red(err));
+      return;
+    }
   }
 };
