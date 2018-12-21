@@ -1,12 +1,28 @@
 {
-  "name": "oxy-gen-cli",
+  "name": "generator-oxy-gen",
   "version": "1.0.0",
-  "description": "",
+  "description": "Yeoman generator for Electron app with React and Rust (WASM).",
   "main": "index.js",
+  "files": [
+    "generators"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "yeoman",
+    "react",
+    "rust",
+    "electron",
+    "web-assembly",
+    "wasm",
+    "web-workers"
+  ],
+  "author": "Andrew Steinheiser",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "lodash.kebabcase": "^4.1.1",
+    "yeoman-generator": "^3.1.1"
+  }
 }
