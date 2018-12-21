@@ -11,9 +11,6 @@ const {
   NEW_META
 } = require('./scripts.js');
 
-// set global background color to black for text since we use white
-chalk = chalk.bgBlack;
-
 module.exports = class extends Generator {
 
   constructor(args, opts) {
@@ -26,7 +23,7 @@ module.exports = class extends Generator {
 
     // define help text
     this.desc(chalk.magenta('\tOXY-GEN App Generator')
-      + chalk.white('\n\n\tCreate an Electron app with create-react-app'
+      + chalk.cyan('\n\n\tCreate an Electron app with create-react-app'
       + '\n\tand Rust (Web Assembly in Web Workers) all set'
       + '\n\tup and ready to go with simple speed test example.'));
     this._options.yarn.description = 'Installs dependencies with yarn instead of npm';
@@ -44,8 +41,8 @@ module.exports = class extends Generator {
      \`Y88P'  YP    YP    YP             Y888P  Y88888P VP   V8P 
     `));
 
-    this.log(chalk.white('\nWelcome to ') + chalk.magenta('OXY-GEN')
-      + chalk.white(`! Let's get started!!\n`));
+    this.log(chalk.cyan('\nWelcome to ') + chalk.magenta('OXY-GEN')
+      + chalk.cyan(`! Let's get started!!\n`));
 
     var prompts = [
       {
