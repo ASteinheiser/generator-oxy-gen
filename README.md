@@ -17,3 +17,13 @@ npm i -g create-react-app
 ```
 yo oxy-gen
 ```
+#### OR
+
+Run the command with `--force` to overwrite the appropriate files during generation. Otherwise, the user will need to approve each file (Theres's only about 5 or so).
+```
+yo oxy-gen --force
+```
+And if you prefer `yarn` to `npm`, you can use the `--yarn` flag to set your default package manager.
+```
+yo oxy-gen --yarn
+```
