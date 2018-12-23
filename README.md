@@ -17,6 +17,21 @@ Here is a [demo project](https://github.com/ASteinheiser/oxy-gen-demo) generated
 ```
 npm install -g create-react-app
 ```
+## Rust Toolchain
+### Install Rustup
+```
+curl https://sh.rustup.rs -sSf | sh
+source $HOME/.cargo/env
+```
+### Select Nightly Version (for WASM support)
+```
+rustup default nightly
+```
+### Install WASM bindgen and add target
+```
+rustup target add wasm32-unknown-unknown
+cargo install wasm-bindgen-cli
+```
 ## Install Yeoman
 ```
 npm install -g yo
