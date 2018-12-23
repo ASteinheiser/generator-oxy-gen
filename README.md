@@ -1,36 +1,31 @@
 # generator-oxy-gen
 OXY-GEN is an open-source cli tool that helps developers quickly create native desktop apps using React and Rust!
 
-It uses Electron to build the native app, create-react-app to generate a fresh React app, and uses Web Assembly to bind the Rust functions.
-
-OXY-GEN includes a recursive fibonacci algorithm written in Node.js and Rust. It uses Web Workers to run both languages in parallel to showcase the speed difference.
-
 Here is a [demo project](https://github.com/ASteinheiser/oxy-gen-demo) generated with this generator.
 
-## Install Yeoman and this Generator
-```
-npm install -g yo generator-oxy-gen
-```
-# Install dependencies
-## Install CRA
+<img src="https://raw.githubusercontent.com/ASteinheiser/generator-oxy-gen/master/OXY-GEN%20Demo%20Screenshot.png" alt="OXY-GEN Demo Screenshot" width="600"/>
+
+# Features
+- Generator built with [Yeoman](https://yeoman.io/)
+- Uses [create-react-app](https://facebook.github.io/create-react-app/) to generate a fresh [React](https://reactjs.org/) project
+- Builds cross platform app with [Electron](https://electronjs.org/)
+- Compiles [Rust](https://www.rust-lang.org/) to [Web Assembly](https://webassembly.org/)
+- Comes with [multithreading](https://en.wikipedia.org/wiki/Multithreading_(computer_architecture)) example via [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
+
+# Get Started!
+## Install CRA (>= v2.1.0)
 ```
 npm install -g create-react-app
 ```
-## Setup Rust Toolchain
-### Install Rustup
+## Install Yeoman
 ```
-curl https://sh.rustup.rs -sSf | sh
-source $HOME/.cargo/env
+npm install -g yo
 ```
-### Select Nightly Version (for WASM support)
+## Install this Generator
 ```
-rustup default nightly
+npm install -g generator-oxy-gen
 ```
-### Install WASM bindgen and add target
-```
-rustup target add wasm32-unknown-unknown
-cargo install wasm-bindgen-cli
-```
+
 # Usage
 ```
 yo oxy-gen
